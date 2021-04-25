@@ -18,6 +18,7 @@ class App extends React.Component {
     return (
     <div class="container">
       <div class="child">
+      <p>{process.env.PUBLIC_URL}</p>
       <p><a href={presentation}>Part 1: Presentation</a><br /><br /></p>
       <p><a href={report}>Part 2-4: Reports</a></p><br />
       <iframe src={presentation} width="1000px" height="800px"></iframe>
