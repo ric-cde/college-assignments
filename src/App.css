@@ -3,9 +3,11 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 5vmin;
   pointer-events: none;
+  border-radius: 100%;
 }
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -15,9 +17,9 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 5vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
