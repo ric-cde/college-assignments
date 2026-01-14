@@ -5,6 +5,7 @@ const path = require("path")
 const flash = require("connect-flash")
 const cors = require("cors") // Allows CORS in development. (I.e. different ports/proxying due to create-react-app)
 const bcrypt = require("bcrypt")
+const CSVToJSON = require("csvtojson")
 
 const fileupload = require("express-fileupload")
 
@@ -488,9 +489,46 @@ async function connectToDb() {
 	}
 }
 
+// Auto-seed database if empty (for demo deployments without shell access)
+async function autoSeedIfEmpty() {
+	if (!db) {
+		console.log("Database not connected, skipping auto-seed.")
+		return
+	}
+	const count = await db.collection("recommends").countDocuments()
+	if (count > 0) {
+		console.log(`Database already has ${count} movies, skipping seed.`)
+		return
+	}
+	console.log("Database is empty, auto-seeding...")
+
+	// Load movies from CSV
+	const csvPath = path.join(__dirname, "ratings.csv")
+	const movies = await CSVToJSON().fromFile(csvPath)
+	await db.collection("recommends").insertMany(movies)
+	console.log(`Inserted ${movies.length} movies.`)
+
+	// Create queue index
+	await db.collection("queue").createIndex({ user_id: 1, movie_id: 1 }, { unique: true })
+
+	// Create demo user if not exists
+	const existing = await db.collection("users").findOne({ username: "demo" })
+	if (!existing) {
+		await db.collection("users").insertOne({
+			username: "demo",
+			email: "demo@example.com",
+			firstname: "Demo",
+			lastname: "User",
+			password: await bcrypt.hash("demo1234", 10),
+		})
+		console.log("Created demo user (demo/demo1234)")
+	}
+}
+
 ;(async () => {
 	try {
 		await connectToDb()
+		await autoSeedIfEmpty()
 		app.listen(port, () => {
 			console.log(`App started on http://localhost:${port}`)
 		})
