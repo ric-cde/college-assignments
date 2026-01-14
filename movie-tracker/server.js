@@ -272,17 +272,15 @@ class User {
 				.collection("recommends")
 				.countDocuments({ title, year })
 			if (!check) {
-				const res = await db
-					.collection("recommends")
-					.insertOne({
-						title,
-						year,
-						genres,
-						director,
-						runtime,
-						rating,
-						imdb,
-					})
+				const res = await db.collection("recommends").insertOne({
+					title,
+					year,
+					genres,
+					director,
+					runtime,
+					rating,
+					imdb,
+				})
 				console.log(res)
 				statusCode = 201
 			} else {
@@ -301,6 +299,7 @@ const user = new User()
 
 const { MongoClient, ObjectId } = require("mongodb")
 const db_url = process.env.MONGODB_URI || "mongodb://localhost/movie-tracker"
+const db_name = process.env.MONGODB_DB_NAME // optional explicit DB name for Atlas
 const port = process.env.PORT || 8081
 let db
 
@@ -483,7 +482,7 @@ async function connectToDb() {
 	try {
 		await client.connect()
 		console.log("Connected to MongoDB at ", db_url)
-		db = client.db()
+		db = db_name ? client.db(db_name) : client.db()
 	} catch (err) {
 		console.log(err)
 	}

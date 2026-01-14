@@ -4,6 +4,7 @@ const path = require("path")
 const CSVToJSON = require("csvtojson")
 
 const db_url = process.env.MONGODB_URI || "mongodb://localhost/movie-tracker"
+const db_name = process.env.MONGODB_DB_NAME // optional explicit DB name for Atlas
 let db
 let client
 
@@ -21,7 +22,7 @@ async function connectToDb() {
 	try {
 		await client.connect()
 		console.log("Connected to MongoDB at ", db_url)
-		db = client.db()
+		db = db_name ? client.db(db_name) : client.db()
 	} catch (err) {
 		console.log(err)
 		throw err
