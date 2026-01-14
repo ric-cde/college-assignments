@@ -1,0 +1,45 @@
+body {
+    background-color: #dddddd;
+}
+
+html, body, body > div, .container-sm {
+    height: 100%;
+}
+
+.sweet-alert {
+    height: auto;
+    /* background-color: #222222;
+    color: white; */
+}
+
+.capitalise {
+    text-transform: capitalize;
+}
+
+
+* {
+    borderz: 1px solid black;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 900;
+    border-bottom: 5px green solid;
+}
+
+.page-title {
+    padding-left: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: white;
+    font-size: 3.5rem;
+    background-color: green;
+}
+
+small {
+    color: grey;
+}
+
+.card-title {
+    margin-top: 0.5rem;
+}
