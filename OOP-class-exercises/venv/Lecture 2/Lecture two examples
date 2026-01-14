@@ -1,0 +1,15 @@
+name1 = input("What's your name? ")
+mark1 = int(input("Enter the mark you received to find out how you did: "))
+name2 = input("Name of the person you wish to compare with: ")
+mark2 = int(input("Enter their mark: "))
+
+if mark1 < 40:
+    print("You failed!")
+elif mark1 < 50:
+    print("You passed! (Barely)")
+elif mark1 < 100:
+    print("You got more than 60 and less than 100")
+    if mark1 > mark2:
+        print("You got a higher grade than "+name2+" ("+str(mark2)+")")
+    else:
+        print(name2+" did better than you! "+str(mark2))
